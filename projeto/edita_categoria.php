@@ -1,46 +1,50 @@
 <?php // projeto/edita_categoria.php
 session_start();
-
 require_once 'includes/funcoes.php';
 require_once 'includes/Classes/Model/Categoria.php';
-
-// acesso restrito
 protectPage();
 
-if (isset($_GET['id']) && $_GET['id'] > 0) {
-    // anti-sql injection
+
+if(isset($_GET['id']) && $_GET['id'] > 0) {
+    //anti-sql injection
     $id = (int)$_GET['id'];
-    
     $categoria = new Categoria();
 
-    // 2. atualizar os dados da categoria se foi clicado no "Cadastrar"
-    if (isset($_POST['enviar'])) {
+    //2- Atualizar os dados da categoria
+    if(isset($_POST['enviar'])){
         $nome = escape($_POST['nome']);
-
-        if ($categoria->update(compact('nome'), array('idcategoria' => $id))) {
-            addMsg('Categoria atualizada com sucesso!');
+        //$sql = "UPDATE categoria SET nome='{$nome}' WHERE idcategoria={$id}";
+        
+        if ($nrows = $categoria->update(compact('nome'), array('idcategoria'=>$id))) {
+            addMsg("Categoria {$nrows} editada com sucesso!");
         } else {
-            addMsg('Não foi possível atualizar a categoria!');
+            addMsg("Erro ao atualizar categoria!");
         }
+        
     }
 
-    // 1. buscar os dados da categoria
-    if ($dados = $categoria->select('*', array('idcategoria' => $id))) {
-        $nome_categoria = $dados[0]['nome'];
+    //1- buscar os dados da categoria
+    if (isset($_GET['id']) && $_GET['id'] > 0) {
+        
+        $dados = $categoria->select('nome', array("idcategoria" => $id)); // pode passar o segundo parâmetro como array ou string
+        //$sql = "SELECT nome FROM categoria WHERE idcategoria={$id}";
+        if($dados) {
+            $nome_categoria = $dados[0]['nome'];
+        } else{
+            addMsg('Categoria Inválida!');
+    //        header('Location: categorias.php');
+        }
     } else {
-        addMsg('Categoria inválida!');
-        header('Location: categorias.php');
+        addMsg('Categoria Inválida!');
+  //      header('Location: categorias.php');
     }
-    
 } else {
-    addMsg('Categoria inválida!');
-    header('Location: categorias.php');
+    addMsg('Categoria inválida');
+//    header('Location: categorias.php');
 }
 
-$variaveis = array(
+$variaveis = array (
     'nome' => $nome_categoria // criar
 );
 
 render('templates/cadastro_categoria.tpl', $variaveis);
-
-

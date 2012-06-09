@@ -1,8 +1,6 @@
-<!-- templates/cadastro_categoria.tpl -->
+<!--templates/cadastro_categoria.php -->
 
-
-<form method="post">
-    Nome: <input type="text" name="nome" value="<?= isset($nome) ? $nome : '';?>" /><br />
+<form action="" method="post">
+    Nome:<input type="text" name="nome" value="<?= isset($nome) ? $nome : '';?>" /><br />
     <input type="submit" name="enviar" value="Cadastrar Categoria" />
 </form>
-
