@@ -1,0 +1,116 @@
+<!-- teste javascript -->
+<html>
+<head>
+    <title>Teste</title>
+    <style>
+     .ui-sortable-placeholder { border: 1px dashed orange; display:block; }
+     .ui-state-highlight { border: 1px dashed orange; display:block; height: 20px}
+    </style>
+    <link rel="stylesheet" href="jquery-ui-1.8.21.custom/css/smoothness/jquery-ui-1.8.21.custom.css" />
+
+    <!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script-->
+    <script type="text/javascript" src="jquery-ui-1.8.21.custom/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="jquery-ui-1.8.21.custom/js/jquery-ui-1.8.21.custom.min.js"></script>
+    
+    <script type="text/javascript">
+        // evento 'window.onload', no modo jQuery
+        jQuery(document).ready(function() {
+            // troca o estilo
+            //jQuery('p').css({color: 'red', background: 'black'});
+            // evento click em todos os links
+            jQuery('a').click(function() {
+                jQuery('li:first').html('<strong>terere</strong>');
+            });
+            
+            /*// eventos no li: mousover ...
+            jQuery('li').mouseover(function(){
+                jQuery(this).css('border', '1px solid black');
+            })
+            // ... e mouseout
+            .mouseout(function() {
+                jQuery(this).css('border', 'none');
+            });*/
+            
+            //jQuery('li:even').css('background', 'silver');
+
+            // o método each() funciona como um "foreach" para os 
+            // elementos jQuery();
+            var as = jQuery('a');
+            as.each(function(index, element) {
+                // troca para negrito só os links pares
+                if (index % 2 == 0) 
+                    jQuery(element).css('fontWeight', 'bold');
+            });
+
+        });
+
+    </script>
+</head>
+
+<body>
+    <input type="text" id="calendar" /><br />
+    <a href="#" id="link" class="test primeiro links">Clique</a>
+    <p>Um texto de teste</p>
+    <ul>
+        <li>
+            item 1 - <a href="#">Teste dentro de lista</a>
+        </li>
+        <li>item 2</li>
+        <li>item 3</li>
+    </ul>
+    <p>Conteúdo estático</p>
+    <p id="dinamico">Aqui vai ser dinâmico...</p>
+    <a href="#" id="loader">Carregar o conteúdo</a>
+    <div id="loading" style="position:absolute; top:5px; right:5px; background:red; color:white;display:none">Carregando...</div>
+    
+    <script type="text/javascript">
+        jQuery('#loader').click(function(){
+            /*jQuery.ajax({
+                type: 'POST',
+                url: 'ajax_teste.php',
+                beforeSend: function() {
+                    jQuery('#loading').show('slow');
+                },
+                complete: function() {
+                    jQuery('#loading').hide(2000);
+                },
+                success: function(data) {
+                    jQuery('#dinamico').html(data);
+                },
+                error: function() {}
+            });*/
+            /*$("#dinamico")
+                .ajaxSend(function() {
+                    jQuery('#loading').show('slow');
+                })
+                .ajaxComplete(function() {
+                    jQuery('#loading').hide(2000);
+                })
+                .load('ajax_teste.php');*/
+                
+        });
+        // jquery-UI
+        // datepicker
+        jQuery('#calendar').datepicker({dateFormat: 'dd/mm/yy'});
+        // sortable(), permite alterar a ordem das coisas
+        jQuery('ul').sortable({placeholder: "ui-state-highlight"});
+    </script>
+    
+    <a href="#" id="dialog">Clique-me</a>
+    <div id="dialog-modal" title="Modal básico" style="display:none">
+	    <p>Janelinha modal de bobeira</p>
+    </div>
+    <script type="text/javascript">
+        jQuery("#dialog").click(function() {
+            // cria uma janela modal
+            jQuery('#dialog-modal').dialog({modal:true});
+        });
+    </script>
+    
+    <input type="text" id="autocomplete" />
+    <script type="text/javascript">
+        jQuery('#autocomplete').autocomplete({source: 'autocomplete.php', minLength: 2});
+    </script>
+</body>
+</html>
+
