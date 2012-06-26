@@ -1,6 +1,6 @@
 <?php // advancedII/pdf/teste.php
 
-require_once 'exemplos/pdf/fpdf17/fpdf.php';
+require_once 'meupdf.php';
 
 $pdf = new FPDF('P', 'cm', 'A4');
 
@@ -9,43 +9,41 @@ $pdf->SetTitle('Meu Primeiro Documento PDF');
 
 $pdf->SetMargins(2, 2, 1);
 
+$pdf->AliasNbPage('{nb}');
+
 $pdf->AddPage(); // tentar adicionar um footer, adicionar a página, e tentar adicionar um header na nova página
+
+$produtos = array(
+    array(
+        'nome'  => 'Lixa de unha reutilizável',
+        'marca' => 'Treco',
+        'preco' => 10.5
+    ),
+    array(
+        'nome'  => 'Escova de Dentes Multiuso',
+        'marca' => 'OralBJ',
+        'preco' => 12
+    ),
+    array(
+        'nome'  => 'Refrigerante de Cachaça',
+        'marca' => 'Companhia das Índias Antigas',
+        'preco' => 4.5
+    )
+);
+
 $pdf->SetFont('Arial', 'B', 12);
-$pdf->SetTextColor(255, 0, 0); //coloca um texto vermelho,rgb(255,0,0)
-$pdf->Text(1, 1, 'Um texto qualquer');
+$pdf->Cell(8, 1, 'Nome do Produto', 1, 0, 'C');
+$pdf->Cell(5, 1, 'Marca', 1, 0, 'C');
+$pdf->Cell(5, 1, 'Preço', 1, 0, 'C');
 
-// cria um texto no meio do documento
-$pdf->SetXY(10, 14);
-$pdf->Write(1, utf8_decode('Texto brutão do curso brutão'));
 $pdf->Ln(1);
-$pdf->Write(1, 'Com link', 'http://phprime.com.br');
-
-// Bug estranho
-$pdf->SetXY(9.8, 10);
-$pdf->Write(1, 'Um texto');
-$pdf->Text(10, 11, 'Um texto');
-
-// colocar Imagem (src, x, y, w, h)
-$pdf->Image('./exemplos/pdf/ferrari1.jpg', 4, 4, 8, 4);
-
-$pdf->AddPage('L');
-// w, h, txt[, border, newline, align, fill, link]
-$pdf->Cell(4, 2, 'Tem um texto bacana', 1, 0, 'C');
-$pdf->Cell(4, 2, "Tem outro texto\n bacana", 1, 0, 'C');
-
-$pdf->Ln(2);
-$pdf->MultiCell(4, 1, 'Tem um texto bacana', 1, 'C');
-$pdf->SetXY(6, 4);
-$pdf->MultiCell(4, 1, 'Tem outro texto bacana', 1, 'C');
-
-$pdf->Ln(2);
-
-$pdf->AliasNbPages('{nb}');
-$pdf->Write(1, 'Estamos na Página ' . $pdf->PageNo() . ' de {nb}');
-
-$pdf->AddPage('P');
-
-
+$pdf->SetFont('Arial', '', 11);
+foreach ($produtos as $produto) {
+    $pdf->Cell(8, 1, $produto['nome'], 1, 0, 'C');
+    $pdf->Cell(5, 1, $produto['marca'], 1, 0, 'C');
+    $pdf->Cell(5, 1, $produto['preco'], 1, 0, 'C');
+    $pdf->Ln(1);
+}
 
 
 $pdf->Output('first.pdf', 'I');

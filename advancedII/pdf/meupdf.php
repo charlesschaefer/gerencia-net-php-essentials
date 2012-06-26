@@ -17,4 +17,8 @@ class MeuPdf extends FPDF {
         $this->Ln(1);
         $this->Cell(19, 1, 'Gustavo lima e você', 0, 0, 'C');
     }
+
+    public function Write($h, $txt, $link='') {
+        return parent::Write($h, utf8_decode($txt), $link);
+    }
 }

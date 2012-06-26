@@ -41,4 +41,4 @@
 		$pdf->Ln();
 	}
 	
-	$pdf->Output('/tmp/teste.pdf');
+	$pdf->Output('teste.pdf', 'I');
